@@ -1,0 +1,24 @@
+<header class="new-top-bar top-bar--fixed top-bar--{{topBarColor}}" [ngClass]="{'top-bar--fixed': topBarFixed}">
+  <div class="top-bar__container row">
+    <i class="icon icon-hamburger-menu hide-for-large-up" (click)="openNav()"></i>
+    <div class="top-bar__brand">
+      <a [routerLink]="appLink">
+        <div class="top-bar__logo">
+          <i *ngIf="!appImage" class="icon top-bar__icon {{appIcon}}"></i>
+          <img class="top-bar__image" *ngIf="appImage" [src]="appImage" [alt]="appTitle">
+        </div>
+        <div class="top-bar__title">{{appTitle}}</div>
+      </a>
+    </div>
+    <div class="top-bar__nav show-for-large-up">
+      <ng-content select="cui-top-nav"></ng-content>
+    </div>
+    <div class="top-bar__right">
+      <ng-content select="cui-top-bar-right"></ng-content>
+    </div>
+  </div>
+  <div class="top-bar__mobile" [ngClass]="{'open': navOpen}" (click)="closeNav()">
+    <ng-content select="cui-top-nav"></ng-content>
+  </div>
+  <div class="top-bar__mobile-nav-mask" [ngClass]="{'open': navOpen}" (click)="closeNav()"></div>
+</header>

@@ -1,0 +1,22 @@
+$brand-font-folder: '~@collab-ui/core/fonts';
+$icon-font-path: '~@collab-ui/icons/fonts';
+$images-path: '~@collab-ui/core/images';
+$docs-images-path: '/assets';
+
+@import '~@collab-ui/core/scss/collab-ui';
+@import '~@collab-ui/core/scss/docs/collab-ui-docs';
+@import '~@collab-ui/core/scss/ng/dropdown';
+
+// Example overrides
+.docs-example {
+  .reveal-modal {
+    &.full,
+    &.dialog {
+      position: relative;
+      height: auto;
+      .modal-content {
+        box-shadow: 0 1px 2px 1px rgba(52, 53, 55, 0.18);
+      }
+    }
+  }
+}

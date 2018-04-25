@@ -1,0 +1,136 @@
+{
+  "name": "@collab-ui/angular",
+  "version": "4.0.0",
+  "description": "Collab UI framework for Cisco Collaboration Design Angular (2+) applications",
+  "engines": {
+    "npm": ">=5",
+    "node": ">=8"
+  },
+  "author": "Cisco Systems, Inc.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/collab-ui/collab-ui-angular.git"
+  },
+  "bugs": {
+    "url": "https://github.com/collab-ui/collab-ui-angular/issues"
+  },
+  "scripts": {
+    "build": "yarn build:data && node build.js",
+    "build:data": "node ./tools/generateComponentData.js",
+    "build:watch": "npm-watch build",
+    "clean:install": "rimraf node_modules && npm install",
+    "clean:update": "rimraf node_modules && npm cache verify && npm install && npm update",
+    "clean-temp": "rimraf out-tsc",
+    "lint": "tslint -c ./tslint.json -t verbose ./src/**/**/*.ts",
+    "lint:watch": "npm-watch lint",
+    "postbuild": "yarn clean-temp",
+    "prebuild": "yarn clean-temp",
+    "prepublishOnly": "yarn build",
+    "prestart": "yarn build",
+    "release": "toolkit-pub",
+    "serve": "ng serve",
+    "start": "run-p watch serve",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch",
+    "watch": "npm-watch"
+  },
+  "watch": {
+    "build": {
+      "patterns": [
+        "src/lib/"
+      ],
+      "extensions": "ts",
+      "quiet": true
+    },
+    "build:data": {
+      "patterns": [
+        "src/lib/"
+      ],
+      "extensions": "ts",
+      "quiet": true
+    },
+    "lint": {
+      "patterns": [
+        "src/lib/"
+      ],
+      "extensions": "ts",
+      "quiet": true
+    }
+  },
+  "main": "./bundles/collab-ui-angular.umd.js",
+  "module": "./lib/collab-ui-angular.es5.js",
+  "es2015": "./lib/collab-ui-angular.js",
+  "typings": "./lib/collab-ui-angular.d.ts",
+  "jest": {
+    "preset": "jest-preset-angular",
+    "setupTestFrameworkScriptFile": "<rootDir>/test/setupJest.ts",
+    "roots": [
+      "<rootDir>/src/lib/"
+    ],
+    "moduleNameMapper": {
+      "app/(.*)": "<rootDir>/src/lib/$1"
+    },
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "src/lib/tsconfig.spec.json"
+      }
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(ts|js)$",
+    "collectCoverageFrom": [
+      "src/lib/**/*.{js,ts}",
+      "!src/lib/**/index.{js,ts}",
+      "!**/node_modules/**"
+    ],
+    "coverageDirectory": "test/coverage"
+  },
+  "peerDependencies": {
+    "@angular/core": ">=4.0.0",
+    "@angular/router": ">=4.0.0"
+  },
+  "dependencies": {
+    "@collab-ui/core": ">=9.0.0"
+  },
+  "devDependencies": {
+    "@angular/animations": "~4.4.6",
+    "@angular/cli": "~1.5.0",
+    "@angular/common": "~4.4.6",
+    "@angular/compiler": "~4.4.6",
+    "@angular/compiler-cli": "~4.4.6",
+    "@angular/core": "~4.4.6",
+    "@angular/forms": "~4.4.6",
+    "@angular/http": "~4.4.6",
+    "@angular/language-service": "~4.4.6",
+    "@angular/platform-browser": "~4.4.6",
+    "@angular/platform-browser-dynamic": "~4.4.6",
+    "@angular/router": "~4.4.6",
+    "@collab-ui/release": "^2.0.1",
+    "@collab-ui/utils": "^2.0.1",
+    "@types/jest": "^22.1.4",
+    "@types/node": "~8.0.0",
+    "autoprefixer": "~7.1.0",
+    "camelcase": "~4.1.0",
+    "codelyzer": "^4.0.1",
+    "concurrently": "3.5.0",
+    "core-js": "~2.5.1",
+    "glob": "~7.1.1",
+    "jest": "^22.4.2",
+    "jest-preset-angular": "^5.2.0",
+    "npm-run-all": "^4.1.2",
+    "npm-watch": "^0.3.0",
+    "protractor": "~5.1.2",
+    "rimraf": "~2.6.1",
+    "rollup": "~0.42.0",
+    "rollup-plugin-commonjs": "~8.0.2",
+    "rollup-plugin-node-resolve": "~3.0.0",
+    "rollup-plugin-sourcemaps": "~0.4.1",
+    "rollup-plugin-uglify": "~2.0.1",
+    "rxjs": "~5.5.2",
+    "standard-version": "~4.2.0",
+    "ts-node": "~3.3.0",
+    "tslint": "~5.7.0",
+    "typescript": ">=2.4.2 <2.5",
+    "zone.js": "^0.8.25"
+  }
+}

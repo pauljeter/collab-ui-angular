@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/app",
+    "baseUrl": "docs",
+    "module": "es2015",
+    "types": [],
+    "paths": {
+      "@angular/core": ["node_modules/@angular/core"],
+      "collab-ui-angular/*": ["../lib/*"]
+    }
+  },
+  "exclude": ["test.ts", "**/*.spec.ts"]
+}

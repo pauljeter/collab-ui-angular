@@ -1,0 +1,13 @@
+<div class="reveal-modal-bg fade in" [class.in]="_csVisible" *ngIf="csActive" style="display: block;"></div>
+<div
+  class="reveal-modal"
+  role="dialog"
+  tabindex="-1"
+  [class.in]="_csVisible"
+  [ngClass]="{'full reveal-bottom': csType !== 'dialog', 'dialog fade': csType === 'dialog'}"
+  *ngIf="csActive"
+  [ngStyle]="{'display': 'block', 'visibility': 'visible', 'z-index': '10000'}">
+  <div class="modal-content" [ngClass]="csType">
+    <ng-content></ng-content>
+  </div>
+</div>

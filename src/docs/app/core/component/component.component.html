@@ -1,0 +1,14 @@
+<docs-header [title]="component.name" [description]="component.description"></docs-header>
+<article class="row copy-spacing">
+  <div class="docs-container">
+    <button class="show-code-button" *ngIf="showCodeButton" (click)="showCode = !showCode">
+      <span *ngIf="!showCode">Show</span>
+      <span *ngIf="showCode">Hide</span>
+      Code
+    </button>
+
+    <div class="docs-section">
+      <docs-section *ngFor="let section of component.sections" [showCode]="showCode" [section]="section"></docs-section>
+    </div>
+  </div>
+</article>

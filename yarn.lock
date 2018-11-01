@@ -271,6 +271,16 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
+"@collab-ui/core@^10.33.1":
+  version "10.33.1"
+  resolved "https://registry.yarnpkg.com/@collab-ui/core/-/core-10.33.1.tgz#c749062718bea3c20589dad96b8131b1e1c74bad"
+  dependencies:
+    "@collab-ui/icons" "^3.30.0"
+
+"@collab-ui/icons@^3.30.0":
+  version "3.32.0"
+  resolved "https://registry.yarnpkg.com/@collab-ui/icons/-/icons-3.32.0.tgz#239633984f49d9903b1c0293a9e9c35aacf2b6be"
+
 "@ngtools/json-schema@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@ngtools/json-schema/-/json-schema-1.1.0.tgz#c3a0c544d62392acc2813a42c8a0dc6f58f86922"

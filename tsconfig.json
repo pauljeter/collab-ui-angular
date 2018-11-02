@@ -18,11 +18,11 @@
       "dom"
     ],
     "paths": {
-      "collab-ui-angular": [
-        "dist/collab-ui-angular"
+      "@collab-ui/angular": [
+        "dist/@collab-ui/angular"
       ],
-      "collab-ui-angular/*": [
-        "dist/collab-ui-angular/*"
+      "@collab-ui/angular/*": [
+        "dist/@collab-ui/angular/*"
       ]
     }
   }

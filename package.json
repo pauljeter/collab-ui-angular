@@ -3,12 +3,15 @@
   "version": "4.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --project=collab-ui-angular-docs",
-    "build": "ng build",
-    "build:docs": "ng build --project=collab-ui-angular-docs",
+    "start": "run-p watch:lib serve",
+    "build": "yarn build:lib",
+    "build:docs": "ng build --project=docs",
+    "build:lib": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "serve": "ng serve --project=docs --open",
+    "watch:lib": "ng build @collab-ui/angular --watch"
   },
   "private": true,
   "dependencies": {
@@ -23,6 +26,7 @@
     "@angular/router": "~7.0.0",
     "@collab-ui/core": "^10.33.1",
     "core-js": "^2.5.4",
+    "npm-run-all": "^4.1.3",
     "rxjs": "~6.3.3",
     "zone.js": "~0.8.26"
   },

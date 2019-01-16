@@ -224,14 +224,18 @@ or in case of multiple issues:
 
 [Adhere to the Code Guide](https://angular.io/guide/styleguide)
 
-### Running this project locally
-* You need to run `$ yarn watch:lib` in one tab within terminal
-* Then in another tab, `$ yarn serve` which will serve it at localhost:4200
-
-### Using Angular CLI with this Project
-###### When adding a new Module or Component to the src/lib directory...
-* `ng g module <componentName> --project=@collab-ui/angular`
-* `ng g component <componentName> --project=@collab-ui/angular`
+## Developer Setup
+###### (When adding a new Component to the `src/lib` directory...)
+### Angular CLI custom commands (create module before component)
+* Create Component Module: `ng g module <componentName> --project=@collab-ui/angular`
+* Create Component: `ng g component <componentName> --project=@collab-ui/angular`
+### Manual adjustments to ensure that the playground works with new component
 * You need to create an `index.ts` file under the new component directory (use existing index.ts as a guide)
 * Don't forget to add the new component to `src/lib/public_api.ts`
-* Ensure that within `src/docs/app/applmodule.ts`, you import the newly created module if you want to test it within Playground
+* Ensure that within `src/docs/app/app.module.ts`, the newly created module has been imported
+* You may add your new Component within the `src/docs/app/playground/playground.component.html`
+### Running this project locally
+* To link the Core package with this Angular package, run this in terminal: `$ yarn link @collab-ui/core` 
+* You need to run `$ yarn watch:lib` in one tab within terminal
+* Then in another tab, `$ yarn serve` which will serve it at localhost:4200
+* You can access the playground `localhost:4200/playground`

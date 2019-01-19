@@ -5,6 +5,7 @@
     "entryFile": "public_api.ts"
   },
   "whitelistedNonPeerDependencies": [
-    "@collab-ui/core"
+    "@collab-ui/core",
+    "@angular/cdk"
   ]
 }

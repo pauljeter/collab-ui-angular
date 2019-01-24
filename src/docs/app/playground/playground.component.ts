@@ -11,7 +11,5 @@ export class PlaygroundComponent implements OnInit {
 
   ngOnInit() {}
 
-  onClick = () => {
-    console.log('click has been invoked');
-  }
+
 }

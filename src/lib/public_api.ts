@@ -4,4 +4,5 @@
 
 export * from './badge';
 export * from './icon';
+export * from './list-item-section';
 export * from './spinner';

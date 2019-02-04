@@ -1,11 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'cui-list-item-section',
   template: `
-    <div [ngClass]="setMyClasses()">
-      <ng-content></ng-content>
-    </div>
+    <ng-content></ng-content>
   `,
   styles: []
 })
@@ -13,21 +11,43 @@ export class ListItemSectionComponent implements OnInit {
 
   constructor() { }
 
-  /** @option Determine the ListItemSection's position | 'center' */
+  /** @option position Determine the ListItemSection's position | 'center' */
   @Input() position = 'center';
-  /** @option Optional css class name | '' */
+  /** @option class Optional css class name | '' */
   @Input() class = '';
 
+  @HostBinding('class') get className(): string {
+    return `cui-list-item__${this.position}` +
+      `${(this.class && ` ${this.class}`) || ''}`;
+  }
+
   ngOnInit() {
-    if (this.position && this.position !== 'left' && this.position !== 'center' && this.position !== 'center-align') {
+    if (this.position && !this.isValidPosition()) {
       throw new Error('cui-list-item-section: ListItemSection position must be one of the following: left, center, right, center-align');
     }
   }
 
-  setMyClasses() {
-   const myClasses = `cui-list-item__${this.position}` +
-    `${(this.class && ` ${this.class}`) || ''}`;
-
-    return myClasses;
-  }
+  private isValidPosition = () => (
+    ['left', 'center', 'right', 'center-align'].includes(this.position)
+  )
 }
+
+/**
+* @component list-item-section
+* @section default
+* @angular
+*
+<div>
+  <cui-list-item-section>Section</cui-list-item-section>
+</div>
+*/
+
+/**
+ * @component list-item-section
+ * @section position
+ * @angular
+ *
+<div>
+  <cui-list-item-section position="left">Section</cui-list-item-section>
+</div>
+ */

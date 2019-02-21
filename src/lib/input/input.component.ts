@@ -12,7 +12,7 @@ const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 @Component({
   selector: 'cui-input',
   templateUrl: './input.component.html',
-  providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
+  // providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
 })
 
 export class InputComponent implements ControlValueAccessor {
@@ -94,10 +94,9 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   get errorValid() {
-    //hasn't been interacted by user yet
-    if (this.control.pristine) {
-      return '';
-    }
+    // if (this.control.pristine) {
+    //   return '';
+    // }
     for(let error in this.errorObj) {
       if (this.control.errors[error]) {
         return this.errorObj[error]
@@ -133,7 +132,7 @@ export class InputComponent implements ControlValueAccessor {
   /** @option Sets the attribute name to the input element | '' */
   @Input() public name: string = '';
   /** @option Optional error messages object with angular validators | {} */
-  @Input() public errorObj = {};
+  @Input() public errorObj: object = {};
 
   /** @option function when clicked outside of input */
   @Output() handleBlur: EventEmitter<any> = new EventEmitter();
@@ -171,13 +170,12 @@ export class InputComponent implements ControlValueAccessor {
       [this.inputSize + ' columns']: this.inputSize,
       'read-only': this.readOnly,
       'disabled': this.disabled,
+      'error': this.errorObj && this.control.invalid,
       ['cui-input-group--' + this.theme]: this.theme,
       [this.errorType]: this.errorType,
-      [this.class]: this.class,
-      'error': this.control.invalid
+      [this.class]: this.class
     };
   }
-  // Provide error css class when control is invalid from errObj
 
   get inputClasses() {
     return {

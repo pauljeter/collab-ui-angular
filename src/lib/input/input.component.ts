@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, forwardRef, Output, EventEmitter} from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, forwardRef, Output, EventEmitter, Optional, Self} from '@angular/core';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor, NgControl } from '@angular/forms';
 
 const cb = () => {};
 
@@ -89,6 +89,23 @@ export class InputComponent implements ControlValueAccessor {
     );
   };
 
+  get hasRequiredError() {
+    return this.control.hasError('required');
+  }
+
+  get errorValid() {
+    //hasn't been interacted by user yet
+    if (this.control.pristine) {
+      return '';
+    }
+    for(let error in this.errorObj) {
+      if (this.control.errors[error]) {
+        return this.errorObj[error]
+      }
+    }
+    return '';
+  }
+
   /** @option Optional css class string | ''  */
   @Input() public class: string = '';
   /** @option Sets the disabled attribute of the Input | false */
@@ -113,6 +130,10 @@ export class InputComponent implements ControlValueAccessor {
   @Input() public theme: string;
   /** @option Input type | 'text' */
   @Input() public type: string = "text";
+  /** @option Sets the attribute name to the input element | '' */
+  @Input() public name: string = '';
+  /** @option Optional error messages object with angular validators | {} */
+  @Input() public errorObj = {};
 
   /** @option function when clicked outside of input */
   @Output() handleBlur: EventEmitter<any> = new EventEmitter();
@@ -126,9 +147,13 @@ export class InputComponent implements ControlValueAccessor {
   public errorType;
   public errors;
 
-  constructor() { }
+  constructor(@Optional() @Self() public control: NgControl) {
+    if (this.control) {
+      this.control.valueAccessor = this;
+    }
+  }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ngOnChanges(changes: SimpleChanges){
     if(changes.errorArr){
@@ -149,8 +174,10 @@ export class InputComponent implements ControlValueAccessor {
       ['cui-input-group--' + this.theme]: this.theme,
       [this.errorType]: this.errorType,
       [this.class]: this.class,
+      'error': this.control.invalid
     };
   }
+  // Provide error css class when control is invalid from errObj
 
   get inputClasses() {
     return {

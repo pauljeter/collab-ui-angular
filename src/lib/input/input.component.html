@@ -32,6 +32,7 @@
       (focus)="onFocus($event)"
       (keydown)="onKeyDown($event)"
       (mousedown)="onMouseDown($event)"
+      [name]="name"
     />
 
     <label class="cui-label__secondary-label">
@@ -47,6 +48,11 @@
     >
     </cui-input-error>
   </ng-container>
+
+  <!-- Angular Control Error Validation Message  -->
+  <div class="cui-input__messages" role="alert" *ngIf="control.invalid">
+    <div class="message">{{errorValid}}</div>
+  </div>
 
   <!-- Helper Text -->
   <cui-input-helper

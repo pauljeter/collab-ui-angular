@@ -5,7 +5,11 @@ import { uniqueId } from 'lodash';
   selector: 'a[cui-list-item], div[cui-list-item]',
   exportAs: 'cuiListItem',
   template: `
-    <ng-content></ng-content>
+      <div *ngIf="label; else content">{{label}}</div>
+
+      <ng-template #content>
+        <ng-content></ng-content>
+      </ng-template>
   `
 })
 export class ListItemComponent implements OnInit {
@@ -13,41 +17,43 @@ export class ListItemComponent implements OnInit {
   constructor() { }
 
   /** @option Active prop to help determine styles | false */
-  @Input() active: false;
-  /** @option Children nodes to render inside ListItem | null  */
+  @Input() active = false;
+  /** @option class Optional css class name | '' */
   @Input() class = '';
   /** @option Node in which the selection begins | null */
-  @Input() customAnchorNode: '';
+  @Input() customAnchorNode = '';
   /** @option ListItem Custom Prop Name for child with custom Ref | null */
-  @Input() customRefProp: '';
+  @Input() customRefProp = '';
   /** @option Disabled attribute for ListItem to determine styles | false */
-  @Input() disabled: false;
+  @Input() disabled = false;
   /** @option Specifies if ListItem should automatically get focus | false */
-  @Input() focus: false;
+  @Input() focus = false;
   /** @option Specifies if ListItem should automatically get focus when page loads | false */
-  @Input() focusOnLoad: false;
+  @Input() focusOnLoad = false;
   /** @option Sets ListItem id | null */
-  @Input() id: null;
+  @HostBinding('id') @Input() id: string = uniqueId('cui-list-item-');
   /** @option Determines if ListItem is clickable | false */
-  @Input() isReadOnly: false;
+  @Input() isReadOnly = false;
   /** @option ListItem index number | null */
-  @Input() itemIndex: null;
+  @Input() itemIndex = null;
   /** @option ListItem label text | '' */
-  @Input() label: '';
+  @Input() label = '';
   /** @option external link associated input | '' */
-  @Input() link: '';
+  @Input() link = '';
   /** @option ListItem ref name | 'navLink' */
-  @Input() refName: 'navLink';
+  @Input() refName = 'navLink';
   /** @option Aria role | 'listItem' */
-  @Input() role: 'listItem';
+  @Input() role = 'listItem';
   /** @option Prop that controls whether to show separator or not | false */
-  @Input() separator: false;
+  @Input() separator = false;
   /** @option ListItem Title | '' */
-  @Input() title: '';
+  @Input() title = '';
   /** @option ListItem size | '' */
-  @Input() type: '';
+  @Input() type = '';
   /** @option ListItem value for OnSelect value | '' */
-  @Input() value: '';
+  @Input() value = '';
+
+  @Output() selected: EventEmitter<any> = new EventEmitter();
 
   @HostBinding('class') get className(): string {
     return 'cui-list-item' +
@@ -58,8 +64,9 @@ export class ListItemComponent implements OnInit {
     `${(this.separator && ` cui-list-item--separator`) || ''}` +
     `${(this.class && ` ${this.class}`) || ''}`;
   }
-  @HostBinding('id') get theId() {
-    return this.id || uniqueId('cui-list-item-');
+
+  @HostBinding('attr.type') get theType() {
+    return this.type;
   }
 
   @HostBinding('attr.aria-current') get theAriaCurrent() {
@@ -71,20 +78,15 @@ export class ListItemComponent implements OnInit {
     return (!this.disabled && this.focus) ? 0 : -1;
   }
 
-  @Output() setSelected = new EventEmitter();
-  @Output() handleListKeyDown = new EventEmitter();
-
   ngOnInit() {
-    if (this.type && this.isTypeOptionValid()) {
-      throw new Error('cui-list-item: ListItem type option must be one of the following: left, center, right, center-align');
+    if (this.type && !this.isTypeOptionValid()) {
+      throw new Error(`cui-list-item: ListItem type option must be one of the following:
+        small, large, xlarge, space, header, 36, 52, 60`);
     }
-    if (this.value && this.isValueOptionValid()) {
-      throw new Error('cui-list-item: ListItem position must be one of the following: left, center, right, center-align');
+    if (this.value && !this.isValueOptionValid()) {
+      throw new Error(`cui-list-item: ListItem value option must be one of the following types:
+        string, number, object, array`);
     }
-
-    console.log('1', this.id);
-    this.id = this.id || uniqueId('cui-list-item-');
-    console.log('2', this.id);
   }
 
   private isTypeOptionValid = () => (
@@ -94,43 +96,4 @@ export class ListItemComponent implements OnInit {
   private isValueOptionValid = () => (
     ['string', 'number', 'object', 'array'].includes(typeof this.value)
   )
-
-   handleClick = e => {
-     const {
-       disabled,
-       itemIndex,
-       label,
-      //  onClick,
-       value
-     } = this;
-
-     if (disabled) {
-       e.preventDefault();
-       e.stopPropagation();
-     }
-
-     e.persist();
-
-     const emitData: any = { e, itemIndex, value, label};
-     this.setSelected.emit(emitData);
-    //  onClick && onClick(e);
-   }
-
-   handleKeyDown = e => {
-     const {
-       disabled,
-       itemIndex,
-      //  onKeyDown
-     } = this;
-
-     if (disabled) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-
-    e.persist();
-    const emitData: any = { e, itemIndex};
-    this.handleListKeyDown.emit(emitData);
-    // onKeyDown && onkeydown(e);
-   }
 }

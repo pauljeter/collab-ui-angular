@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, HostBinding,
-  QueryList, ContentChildren, HostListener, OnChanges, ChangeDetectorRef } from '@angular/core';
+  QueryList, ContentChildren, HostListener, OnChanges, ChangeDetectorRef, AfterContentInit } from '@angular/core';
 import { uniqueId } from 'lodash';
 import { ListItemComponent } from '../list-item';
 
@@ -10,14 +10,14 @@ import { ListItemComponent } from '../list-item';
     `,
   styles: []
 })
-export class ListComponent implements OnInit, OnChanges {
+export class ListComponent implements OnInit, OnChanges, AfterContentInit {
 
   isActive = true;
 
   constructor(private cd: ChangeDetectorRef) {}
 
   /** @option Active prop to help determine styles | false */
-  @Input() active = null; // TODO: number or array
+  @Input() active = null;
   /** @option class optional css class name | '' */
   @Input() class = '';
   /** @option Sets first List item to have focus | true */
@@ -31,7 +31,7 @@ export class ListComponent implements OnInit, OnChanges {
   /** @option Callback function invoked by user selecting an interactive item within List | null */
   @Input() onSelect = '';
   /** @option Sets the ARIA role for the Nav, in the context of a TabContainer | 'list' */
-  @Input() role = 'list';
+  @HostBinding('attr.role') @Input() role: string = 'list';
   /** @option Sets the orientation of the List | 'vertical' */
   @Input() tabType = 'vertical';
   /** @option Sets List size | null */
@@ -45,8 +45,6 @@ export class ListComponent implements OnInit, OnChanges {
     ` cui-list${this.wrap && `--wrap` || ''}` +
     `${(this.class && ` ${this.class}`) || ''}`;
   }
-
-  @HostBinding('attr.role') get theRole() { return this.role || null; }
 
   @ContentChildren(ListItemComponent) listItems: QueryList<ListItemComponent>;
 
@@ -63,6 +61,17 @@ export class ListComponent implements OnInit, OnChanges {
     }
   }
 
+  ngAfterContentInit() {
+    // set up listItems children with props
+    this.listItems.forEach((listItem) => {
+      if (this.type) { listItem.type = this.type; }
+      listItem.role = this.itemRole;
+      listItem.id = uniqueId(`${this.id}__list-item-`);
+    });
+
+    this.cd.detectChanges();
+  }
+
   ngOnChanges(changes) {
     console.log('ngOnChanges');
     console.log(changes);
@@ -74,7 +83,7 @@ export class ListComponent implements OnInit, OnChanges {
 
   updateSelected(selectedId) {
     this.listItems.forEach((listItem) => {
-      listItem.active = listItem.id === selectedId;
+      listItem.active = !listItem.isReadOnly && (listItem.id === selectedId);
     });
 
     this.cd.detectChanges();

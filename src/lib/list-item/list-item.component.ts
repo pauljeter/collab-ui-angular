@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostBinding, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, HostBinding, Output, EventEmitter, HostListener } from '@angular/core';
 import { uniqueId } from 'lodash';
 
 @Component({
@@ -20,30 +20,19 @@ export class ListItemComponent implements OnInit {
   @Input() active = false;
   /** @option class Optional css class name | '' */
   @Input() class = '';
-  /** @option Node in which the selection begins | null */
-  @Input() customAnchorNode = '';
-  /** @option ListItem Custom Prop Name for child with custom Ref | null */
-  @Input() customRefProp = '';
   /** @option Disabled attribute for ListItem to determine styles | false */
   @Input() disabled = false;
-  /** @option Specifies if ListItem should automatically get focus | false */
-  @Input() focus = false;
-  /** @option Specifies if ListItem should automatically get focus when page loads | false */
-  @Input() focusOnLoad = false;
   /** @option Sets ListItem id | null */
-  @HostBinding('id') @Input() id: string = uniqueId('cui-list-item-');
+  @HostBinding('attr.id') @Input() id: string = uniqueId('cui-list-item-');
   /** @option Determines if ListItem is clickable | false */
   @Input() isReadOnly = false;
-  /** @option ListItem index number | null */
-  @Input() itemIndex = null;
   /** @option ListItem label text | '' */
   @Input() label = '';
   /** @option external link associated input | '' */
-  @Input() link = '';
+  @HostBinding('attr.href') @Input() link = '';
   /** @option ListItem ref name | 'navLink' */
-  @Input() refName = 'navLink';
-  /** @option Aria role | 'listItem' */
-  @Input() role = 'listItem';
+  // @Input() role = 'listItem';
+  @HostBinding('attr.role') @Input() role = 'listItem';
   /** @option Prop that controls whether to show separator or not | false */
   @Input() separator = false;
   /** @option ListItem Title | '' */
@@ -65,18 +54,13 @@ export class ListItemComponent implements OnInit {
     `${(this.class && ` ${this.class}`) || ''}`;
   }
 
-  @HostBinding('attr.type') get theType() {
-    return this.type;
-  }
+  @HostBinding('attr.title') get theTitle() { return this.title || this.label; }
 
-  @HostBinding('attr.aria-current') get theAriaCurrent() {
-    return this.focus;
-  }
-
-  @HostBinding('attr.role') get theRole() { return this.role || null; }
-  @HostBinding('tabIndex') get theTabIndex() {
-    return (!this.disabled && this.focus) ? 0 : -1;
-  }
+  @HostListener('click', ['$event.target']) handleClick = listItem => {
+    if (this.isReadOnly) {
+      event.stopImmediatePropagation();
+    }
+   }
 
   ngOnInit() {
     if (this.type && !this.isTypeOptionValid()) {

@@ -12,6 +12,11 @@ import { SpinnerModule } from '@collab-ui/angular';
 import { LoadingModule } from '@collab-ui/angular';
 import { ButtonModule } from '@collab-ui/angular';
 
+import { ModalModule } from '@collab-ui/angular';
+import { ModalBodyModule } from '@collab-ui/angular';
+import { ModalHeaderModule } from '@collab-ui/angular';
+import { ModalFooterModule } from '@collab-ui/angular';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PlaygroundComponent } from './playground/playground.component';
@@ -34,6 +39,10 @@ import { PlaygroundComponent } from './playground/playground.component';
     SpinnerModule,
     ButtonModule,
     LoadingModule,
+    ModalModule, 
+    ModalBodyModule,
+    ModalHeaderModule,
+    ModalFooterModule
   ],
   providers: [AlertService],
   bootstrap: [AppComponent],
